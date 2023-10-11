@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Ihre Website</title>
     <style>
-        
+        /* Gemeinsame CSS-Stile für die gesamte Seite */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
 
         header {
             background-color: #007BFF;
@@ -46,6 +53,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Willkommen auf meiner Website</h1>
@@ -59,224 +67,188 @@
     </nav>
     <section id="section1">
         <h2>MEMORY</h2>
-
-        <meta charset="UTF-8">
-    <title>Memory-Spiel</title>
-    <style>
-        /* CSS-Stile für das Spielbrett und die Karten */
-
-        body {
-            background-color: #ADD8E6;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .memory-game {
-            display: grid;
-            grid-template-columns: repeat(4, 100px);
-            gap: 5px;
-            width: 420px;
-            margin: 0 auto;
-        }
-
-        .memory-card {
-            width: 100px;
-            height: 100px;
-            background-color: #DDD;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            perspective: 1000px;
-            transition: transform 0.5s;
-        }
-
-        .memory-card .card-content {
-            font-size: 24px;
-            visibility: hidden;
-        }
-
-        .memory-card.flip .card-content {
-            visibility: visible;
-        }
-    </style>
-</head>
-<body>
-    <h1>Memory-Spiel</h1>
-    <div id="memory-game" class="memory-game"></div>
-
-    <script>
-        // Symbole für die Karten (hier werden Zahlen verwendet)
-        const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
-
-        // Mischen der Symbole
-        const shuffledSymbols = symbols.sort(() => 0.5 - Math.random());
-
-        const gameBoard = document.getElementById('memory-game');
-        let firstCard, secondCard;
-        let lockBoard = false;
-
-        // Erstellen und Anzeigen des Spiels
-        function createBoard() {
-            for (let i = 0; i < shuffledSymbols.length; i++) {
-                const card = document.createElement('div');
-                card.classList.add('memory-card');
-
-                const cardContent = document.createElement('div');
-                cardContent.classList.add('card-content');
-                cardContent.textContent = shuffledSymbols[i];
-
-                card.appendChild(cardContent);
-
-                card.setAttribute('data-card', shuffledSymbols[i]);
-                card.addEventListener('click', flipCard);
-                gameBoard.appendChild(card);
-            }
-        }
-
-        // Karte umdrehen
-        function flipCard() {
-            if (lockBoard) return;
-            if (this === firstCard) return;
-            if (this.classList.contains('flip')) return;
-
-            this.classList.add('flip');
-
-            if (!firstCard) {
-                firstCard = this;
-                return;
+        <!-- Memory-Spiel-Code hier -->
+        <style>
+            /* CSS-Stile für das Memory-Spiel */
+            .memory-game {
+                display: grid;
+                grid-template-columns: repeat(4, 100px);
+                gap: 5px;
+                width: 420px;
+                margin: 0 auto;
             }
 
-            secondCard = this;
-            checkForMatch();
-        }
+            .memory-card {
+                width: 100px;
+                height: 100px;
+                background-color: #DDD;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                perspective: 1000px;
+                transition: transform 0.5s;
+            }
 
-        // Überprüfen, ob die beiden aufgedeckten Karten übereinstimmen
-        function checkForMatch() {
-            let isMatch = firstCard.getAttribute('data-card') === secondCard.getAttribute('data-card');
-            isMatch ? disableCards() : unflipCards();
-        }
+            .memory-card .card-content {
+                font-size: 24px;
+                visibility: hidden;
+            }
 
-        // Karten deaktivieren
-        function disableCards() {
-            firstCard.removeEventListener('click', flipCard);
-            secondCard.removeEventListener('click', flipCard);
-            resetBoard();
-        }
+            .memory-card.flip .card-content {
+                visibility: visible;
+            }
+        </style>
 
-        // Karten wieder umdrehen
-        function unflipCards() {
-            lockBoard = true;
+        <div id="memory-game" class="memory-game"></div>
 
-            setTimeout(() => {
-                firstCard.classList.remove('flip');
-                secondCard.classList.remove('flip');
+        <script>
+            // Memory-Spiel JavaScript-Code hier
+            const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
+            const shuffledSymbols = symbols.sort(() => 0.5 - Math.random());
+            const gameBoard = document.getElementById('memory-game');
+            let firstCard, secondCard;
+            let lockBoard = false;
+
+            function createBoard() {
+                for (let i = 0; i < shuffledSymbols.length; i++) {
+                    const card = document.createElement('div');
+                    card.classList.add('memory-card');
+
+                    const cardContent = document.createElement('div');
+                    cardContent.classList.add('card-content');
+                    cardContent.textContent = shuffledSymbols[i];
+
+                    card.appendChild(cardContent);
+
+                    card.setAttribute('data-card', shuffledSymbols[i]);
+                    card.addEventListener('click', flipCard);
+                    gameBoard.appendChild(card);
+                }
+            }
+
+            function flipCard() {
+                if (lockBoard) return;
+                if (this === firstCard) return;
+                if (this.classList.contains('flip')) return;
+
+                this.classList.add('flip');
+
+                if (!firstCard) {
+                    firstCard = this;
+                    return;
+                }
+
+                secondCard = this;
+                checkForMatch();
+            }
+
+            function checkForMatch() {
+                let isMatch = firstCard.getAttribute('data-card') === secondCard.getAttribute('data-card');
+                isMatch ? disableCards() : unflipCards();
+            }
+
+            function disableCards() {
+                firstCard.removeEventListener('click', flipCard);
+                secondCard.removeEventListener('click', flipCard);
                 resetBoard();
-            }, 1000);
-        }
+            }
 
-        // Spielbrett zurücksetzen
-        function resetBoard() {
-            [firstCard, secondCard] = [null, null];
-            lockBoard = false;
-        }
+            function unflipCards() {
+                lockBoard = true;
 
-        createBoard();
-    </script>
+                setTimeout(() => {
+                    firstCard.classList.remove('flip');
+                    secondCard.classList.remove('flip');
+                    resetBoard();
+                }, 1000);
+            }
 
+            function resetBoard() {
+                [firstCard, secondCard] = [null, null];
+                lockBoard = false;
+            }
 
+            createBoard();
+        </script>
     </section>
     <section id="section2">
         <h2>Tic-Tac-Toe</h2>
-        <meta charset="UTF-8">
-    <title>Tic-Tac-Toe</title>
-    <style>
-        /* CSS-Stile für das Tic-Tac-Toe-Spielfeld */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-gap: 5px;
-            width: 320px;
-            margin: 0 auto;
-        }
-
-        .game-cell {
-            width: 100px;
-            height: 100px;
-            background-color: #DDD;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .game-cell::before {
-            content: '';
-            position: absolute;
-            border: 4px solid #000;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            box-sizing: border-box;
-        }
-
-        .winner {
-            text-align: center;
-            font-size: 24px;
-            margin-top: 10px;
-            color: #FF5733;
-        }
-    </style>
-</head>
-<body>
-    <h1>Tic-Tac-Toe</h1>
-    <div id="game-board" class="game-board"></div>
-    <div class="winner" id="winner-message"></div>
-
-    <script>
-        const gameBoard = document.getElementById('game-board');
-        const winnerMessage = document.getElementById('winner-message');
-        let currentPlayer = 'X';
-
-        // Spielfeld initialisieren
-        function initializeBoard() {
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.classList.add('game-cell');
-                cell.addEventListener('click', () => makeMove(cell));
-                gameBoard.appendChild(cell);
+        <!-- Tic-Tac-Toe-Spiel-Code hier -->
+        <style>
+            /* CSS-Stile für das Tic-Tac-Toe-Spielfeld */
+            .game-board {
+                display: grid;
+                grid-template-columns: repeat(3, 100px);
+                grid-gap: 5px;
+                width: 320px;
+                margin: 0 auto;
             }
-        }
 
-        // Spielerzug machen
-        function makeMove(cell) {
-            if (cell.textContent === '') {
-                cell.textContent = currentPlayer;
-                if (checkWinner()) {
-                    endGame();
-                } else {
-                    currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+            .game-cell {
+                width: 100px;
+                height: 100px;
+                background-color: #DDD;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 36px;
+                cursor: pointer;
+                position: relative;
+            }
+
+            .game-cell::before {
+                content: '';
+                position: absolute;
+                border: 4px solid #000;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                box-sizing: border-box;
+            }
+
+            .winner {
+                text-align: center;
+                font-size: 24px;
+                margin-top: 10px;
+                color: #FF5733;
+            }
+        </style>
+
+        <div id="game-board" class="game-board"></div>
+        <div class="winner" id="winner-message"></div>
+
+        <script>
+            // Tic-Tac-Toe JavaScript-Code hier
+            const gameBoard = document.getElementById('game-board');
+            const winnerMessage = document.getElementById('winner-message');
+            let currentPlayer = 'X';
+            let gameActive = true;
+
+            function initializeBoard() {
+                for (let i = 0; i < 9; i++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('game-cell');
+                    cell.addEventListener('click', () => makeMove(cell));
+                    gameBoard.appendChild(cell);
                 }
             }
-        }
 
-        // Überprüfen, ob ein Spieler gewonnen hat
-        function checkWinner() {
-            const cells = document.querySelectorAll('.game-cell');
-            const winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+            function makeMove(cell) {
+                if (cell.textContent === '' && gameActive) {
+                    cell.textContent = currentPlayer;
+                    if (checkWinner()) {
+                        endGame();
+                    } else {
+                        currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+                    }
+                }
+            }
+
+            function checkWinner() {
+                const cells = document.querySelectorAll('.game-cell');
+                const winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
 
             for (const combo of winningCombos) {
                 const [a, b, c] = combo;
@@ -284,7 +256,7 @@
                     if (cells[a].textContent === 'X' || cells[a].textContent === 'O') {
                         cells[a].style.color = 'red';
                         cells[b].style.color = 'red';
-                        cells[c].style.color = 'red';
+                        cells[c].style color = 'red';
                         gameActive = false;
                         return true;
                     }
@@ -293,21 +265,20 @@
             return false;
         }
 
-        // Das Spiel beenden und den Gewinner anzeigen
         function endGame() {
             winnerMessage.textContent = `${currentPlayer} hat gewonnen!`;
         }
 
         initializeBoard();
     </script>
-    </section>
-    <section id="section3">
-        <h2>Abschnitt 3</h2>
-        <p>Noch in Bearbeitung</p>
-    </section>
-    <footer>
-        <p>&copy; 2023 Ihre Website</p>
-    </footer>
+</section>
+<section id="section3">
+    <h2>Abschnitt 3</h2>
+    <p>Noch in Bearbeitung</p>
+</section>
+<footer>
+    <p>&copy; 2023 Ihre Website</p>
+</footer>
 </body>
 </html>
 
