@@ -3,7 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Ihre Website</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #0056b3;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -11,14 +57,132 @@
     </header>
     <nav>
         <ul>
-            <li><a href="#section1">Abschnitt 1</a></li>
+            <li><a href="#section1">MEMORY</a></li>
             <li><a href="#section2">Abschnitt 2</a></li>
             <li><a href="#section3">Abschnitt 3</a></li>
         </ul>
     </nav>
     <section id="section1">
-        <h2>Abschnitt 1</h2>
-        <p>Dies ist der erste Abschnitt Ihrer Website.</p>
+        <h2>MEMORY</h2>
+
+        <meta charset="UTF-8">
+    <title>Memory-Spiel</title>
+    <style>
+        /* CSS-Stile für das Spielbrett und die Karten */
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 5px;
+            width: 420px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background-color: #DDD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            perspective: 1000px;
+            transition: transform 0.5s;
+        }
+
+        .memory-card .card-content {
+            font-size: 24px;
+            visibility: hidden;
+        }
+
+        .memory-card.flip .card-content {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memory-Spiel</h1>
+    <div id="memory-game" class="memory-game"></div>
+
+    <script>
+        // Symbole für die Karten (hier werden Zahlen verwendet)
+        const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
+
+        // Mischen der Symbole
+        const shuffledSymbols = symbols.sort(() => 0.5 - Math.random());
+
+        const gameBoard = document.getElementById('memory-game');
+        let firstCard, secondCard;
+        let lockBoard = false;
+
+        // Erstellen und Anzeigen des Spiels
+        function createBoard() {
+            for (let i = 0; i < shuffledSymbols.length; i++) {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+
+                const cardContent = document.createElement('div');
+                cardContent.classList.add('card-content');
+                cardContent.textContent = shuffledSymbols[i];
+
+                card.appendChild(cardContent);
+
+                card.setAttribute('data-card', shuffledSymbols[i]);
+                card.addEventListener('click', flipCard);
+                gameBoard.appendChild(card);
+            }
+        }
+
+        // Karte umdrehen
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+            if (this.classList.contains('flip')) return;
+
+            this.classList.add('flip');
+
+            if (!firstCard) {
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        // Überprüfen, ob die beiden aufgedeckten Karten übereinstimmen
+        function checkForMatch() {
+            let isMatch = firstCard.getAttribute('data-card') === secondCard.getAttribute('data-card');
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        // Karten deaktivieren
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            resetBoard();
+        }
+
+        // Karten wieder umdrehen
+        function unflipCards() {
+            lockBoard = true;
+
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+                resetBoard();
+            }, 1000);
+        }
+
+        // Spielbrett zurücksetzen
+        function resetBoard() {
+            [firstCard, secondCard] = [null, null];
+            lockBoard = false;
+        }
+
+        createBoard();
+    </script>
+
+
     </section>
     <section id="section2">
         <h2>Abschnitt 2</h2>
