@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fange die Katze!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        #cat {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            border-radius: 50%;
+        }
+
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            display: none;
+        }
+
+        #timer {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="cat"></div>
+    </div>
+
+    <div id="message">Geschafft!</div>
+    <div id="timer">Zeit: 0 Sekunden</div>
+
+    <script>
+        const cat = document.getElementById("cat");
+        const message = document.getElementById("message");
+        const timerDisplay = document.getElementById("timer");
+        const gameContainer = document.getElementById("game-container");
+        let gameActive = true;
+        let timeElapsed = 0;
+        let timerInterval;
+
+        cat.addEventListener("mouseover", () => {
+            if (gameActive) {
+                clearInterval(timerInterval);
+                message.style.display = "block";
+                message.textContent = "Geschafft!";
+                timerDisplay.style.display = "block";
+                timerDisplay.textContent = `Zeit: ${timeElapsed} Sekunden`;
+                gameActive = false;
+                setTimeout(() => {
+                    message.style.display = "none";
+                    timerDisplay.style.display = "none";
+                    resetGame();
+                }, 2000);
+            }
+        });
+
+        function resetGame() {
+            const maxWidth = gameContainer.clientWidth - 100;
+            const maxHeight = gameContainer.clientHeight - 100;
+
+            const randomX = Math.random() * maxWidth;
+            const randomY = Math.random() * maxHeight;
+
+            cat.style.left = randomX + "px";
+            cat.style.top = randomY + "px";
+
+            // Starte den Timer neu
+            timeElapsed = 0;
+            updateTimerDisplay();
+
+            gameActive = true;
+            startTimer();
+        }
+
+        function moveCatRandomly() {
+            if (gameActive) {
+                const maxWidth = gameContainer.clientWidth - 100;
+                const maxHeight = gameContainer.clientHeight - 100;
+
+                const randomX = Math.random() * maxWidth;
+                const randomY = Math.random() * maxHeight;
+
+                cat.style.left = randomX + "px";
+                cat.style.top = randomY + "px";
+            }
+        }
+
+        // Bewege die Katze 2 Mal pro Sekunde
+        setInterval(moveCatRandomly, 500);
+
+        function updateTimerDisplay() {
+            timerDisplay.textContent = `Zeit: ${timeElapsed} Sekunden`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        startTimer();
+    </script>
+</body>
+</html>
