@@ -91,194 +91,86 @@
             }
 
             .memory-card .card-content {
-                font-size: 24px;
-                visibility: hidden;
-            }
+                font-size: 24px;<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ToBos kleine Website</title>
+    <style>
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-            .memory-card.flip .card-content {
-                visibility: visible;
-            }
-        </style>
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
 
-        <div id="memory-game" class="memory-game"></div>
+        nav {
+            background-color: #0056b3;
+            text-align: center;
+            padding: 10px;
+        }
 
-        <script>
-            // Memory-Spiel JavaScript-Code hier
-            const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
-            const shuffledSymbols = symbols.sort(() => 0.5 - Math.random());
-            const gameBoard = document.getElementById('memory-game');
-            let firstCard, secondCard;
-            let lockBoard = false;
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-            function createBoard() {
-                for (let i = 0; i < shuffledSymbols.length; i++) {
-                    const card = document.createElement('div');
-                    card.classList.add('memory-card');
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
 
-                    const cardContent = document.createElement('div');
-                    cardContent.classList.add('card-content');
-                    cardContent.textContent = shuffledSymbols[i];
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
 
-                    card.appendChild(cardContent);
+        section {
+            padding: 20px;
+        }
 
-                    card.setAttribute('data-card', shuffledSymbols[i]);
-                    card.addEventListener('click', flipCard);
-                    gameBoard.appendChild(card);
-                }
-            }
+        footer {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Willkommen auf meiner Website</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#section1">MEMORY</a></li>
+            <li><a href="#section2">Abschnitt 2</a></li>
+            <li><a href="#section3">Abschnitt 3</a></li>
+        </ul>
+    </nav>
+    <section id="section1">
+    <h2>MEMORY</h2>
+    <p>Besuchen Sie <a href="https://tobo046.github.io/Memory" target="_blank">Mein Memory Spiel</a>.</p>
+</section>
 
-            function flipCard() {
-                if (lockBoard) return;
-                if (this === firstCard) return;
-                if (this.classList.contains('flip')) return;
-
-                this.classList.add('flip');
-
-                if (!firstCard) {
-                    firstCard = this;
-                    return;
-                }
-
-                secondCard = this;
-                checkForMatch();
-            }
-
-            function checkForMatch() {
-                let isMatch = firstCard.getAttribute('data-card') === secondCard.getAttribute('data-card');
-                isMatch ? disableCards() : unflipCards();
-            }
-
-            function disableCards() {
-                firstCard.removeEventListener('click', flipCard);
-                secondCard.removeEventListener('click', flipCard);
-                resetBoard();
-            }
-
-            function unflipCards() {
-                lockBoard = true;
-
-                setTimeout(() => {
-                    firstCard.classList.remove('flip');
-                    secondCard.classList.remove('flip');
-                    resetBoard();
-                }, 1000);
-            }
-
-            function resetBoard() {
-                [firstCard, secondCard] = [null, null];
-                lockBoard = false;
-            }
-
-            createBoard();
-        </script>
-    </section>
     <section id="section2">
-        <h2>Tic-Tac-Toe</h2>
-        <!-- Tic-Tac-Toe-Spiel-Code hier -->
-        <style>
-            /* CSS-Stile für das Tic-Tac-Toe-Spielfeld */
-            .game-board {
-                display: grid;
-                grid-template-columns: repeat(3, 100px);
-                grid-gap: 5px;
-                width: 320px;
-                margin: 0 auto;
-            }
-
-            .game-cell {
-                width: 100px;
-                height: 100px;
-                background-color: #DDD;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 36px;
-                cursor: pointer;
-                position: relative;
-            }
-
-            .game-cell::before {
-                content: '';
-                position: absolute;
-                border: 4px solid #000;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                box-sizing: border-box;
-            }
-
-            .winner {
-                text-align: center;
-                font-size: 24px;
-                margin-top: 10px;
-                color: #FF5733;
-            }
-        </style>
-
-        <div id="game-board" class="game-board"></div>
-        <div class="winner" id="winner-message"></div>
-
-        <script>
-            // Tic-Tac-Toe JavaScript-Code hier
-            const gameBoard = document.getElementById('game-board');
-            const winnerMessage = document.getElementById('winner-message');
-            let currentPlayer = 'X';
-            let gameActive = true;
-
-            function initializeBoard() {
-                for (let i = 0; i < 9; i++) {
-                    const cell = document.createElement('div');
-                    cell.classList.add('game-cell');
-                    cell.addEventListener('click', () => makeMove(cell));
-                    gameBoard.appendChild(cell);
-                }
-            }
-
-            function makeMove(cell) {
-                if (cell.textContent === '' && gameActive) {
-                    cell.textContent = currentPlayer;
-                    if (checkWinner()) {
-                        endGame();
-                    } else {
-                        currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
-                    }
-                }
-            }
-
-            function checkWinner() {
-                const cells = document.querySelectorAll('.game-cell');
-                const winningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-
-            for (const combo of winningCombos) {
-                const [a, b, c] = combo;
-                if (cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
-                    if (cells[a].textContent === 'X' || cells[a].textContent === 'O') {
-                        cells[a].style.color = 'red';
-                        cells[b].style.color = 'red';
-                        cells[c].style color = 'red';
-                        gameActive = false;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        function endGame() {
-            winnerMessage.textContent = `${currentPlayer} hat gewonnen!`;
-        }
-
-        initializeBoard();
-    </script>
-</section>
-<section id="section3">
-    <h2>Abschnitt 3</h2>
-    <p>Noch in Bearbeitung</p>
-</section>
-<footer>
-    <p>&copy; 2023 Nicht Simons Website</p>
-</footer>
+        <h2>Abschnitt 2</h2>
+        <p>Dies ist der zweite Abschnitt Ihrer Website.</p>
+    </section>
+    <section id="section3">
+        <h2>Abschnitt 3</h2>
+        <p>Dies ist der dritte Abschnitt Ihrer Website.</p>
+    </section>
+    <footer>
+        <p>&copy; 2023 Ihre Website</p>
+    </footer>
 </body>
 </html>
 
