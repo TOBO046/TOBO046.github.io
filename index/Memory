@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Memory-Spiel</title>
+    <style>
+        /* CSS-Stile für das Spielbrett und die Karten */
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 5px;
+            width: 420px;
+        }
+
+        .memory-card {
+            width: 100px;
+            height: 100px;
+            background-color: #DDD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            perspective: 1000px;
+            transition: transform 0.5s;
+        }
+
+        .memory-card .card-content {
+            font-size: 24px;
+            visibility: hidden;
+        }
+
+        .memory-card.flip .card-content {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memory-Spiel</h1>
+    <div id="memory-game" class="memory-game"></div>
+
+    <script>
+        // Symbole für die Karten (hier werden Zahlen verwendet)
+        const symbols = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
+
+        // Mischen der Symbole
+        const shuffledSymbols = symbols.sort(() => 0.5 - Math.random());
+
+        const gameBoard = document.getElementById('memory-game');
+        let firstCard, secondCard;
+        let lockBoard = false;
+
+        // Erstellen und Anzeigen des Spiels
+        function createBoard() {
+            for (let i = 0; i < shuffledSymbols.length; i++) {
+                const card = document.createElement('div');
+                card.classList.add('memory-card');
+
+                const cardContent = document.createElement('div');
+                cardContent.classList.add('card-content');
+                cardContent.textContent = shuffledSymbols[i];
+
+                card.appendChild(cardContent);
+
+                card.setAttribute('data-card', shuffledSymbols[i]);
+                card.addEventListener('click', flipCard);
+                gameBoard.appendChild(card);
+            }
+        }
+
+        // Karte umdrehen
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+            if (this.classList.contains('flip')) return;
+
+            this.classList.add('flip');
+
+            if (!firstCard) {
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        // Überprüfen, ob die beiden aufgedeckten Karten übereinstimmen
+        function checkForMatch() {
+            let isMatch = firstCard.getAttribute('data-card') === secondCard.getAttribute('data-card');
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        // Karten deaktivieren
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            resetBoard();
+        }
+
+        // Karten wieder umdrehen
+        function unflipCards() {
+            lockBoard = true;
+
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+                resetBoard();
+            }, 1000);
+        }
+
+        // Spielbrett zurücksetzen
+        function resetBoard() {
+            [firstCard, secondCard] = [null, null];
+            lockBoard = false;
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
+
