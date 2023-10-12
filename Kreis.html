@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fange den Kreis!</title>
+    <title>Fange die Katze!</title>
     <style>
         body {
             margin: 0;
@@ -58,7 +58,7 @@
         let timeElapsed = 0;
         let timerInterval;
 
-        cat.addEventListener("mouseover", () => {
+        function catClicked() {
             if (gameActive) {
                 clearInterval(timerInterval);
                 message.style.display = "block";
@@ -72,7 +72,10 @@
                     resetGame();
                 }, 2000);
             }
-        });
+        }
+
+        cat.addEventListener("click", catClicked);
+        cat.addEventListener("touchstart", catClicked);
 
         function resetGame() {
             const maxWidth = gameContainer.clientWidth - 100;
