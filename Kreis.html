@@ -1,12 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fange die Katze!</title>
+    <title>Fange den Kreis!</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
+    body {
+        background-color: #ADD8E6;
+        font-family: Arial, sans-serif;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    main {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    header {
+        background-color: #007BFF;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+
+    nav {
+        background-color: #0056b3;
+        text-align: center;
+        padding: 10px;
+    }
+
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    section {
+        padding: 20px;
+    }
+    footer {
+background-color: #007BFF;
+color: #fff;
+text-align: center;
+padding: 10px;
+position: fixed;
+bottom: 0vh;
+width: 100%;
+}
 
         #game-container {
             position: relative;
@@ -42,6 +94,17 @@
     </style>
 </head>
 <body>
+
+  <header>
+      <h1>Fange den Kreis!</h1>
+  </header>
+  <nav>
+      <ul>
+          <li><a href="https://tobo046.github.io">Hauptseite</a></li>
+      </ul>
+  </nav>
+
+
     <div id="game-container">
         <div id="cat"></div>
     </div>
@@ -58,7 +121,7 @@
         let timeElapsed = 0;
         let timerInterval;
 
-        function catClicked() {
+        cat.addEventListener("mouseover", () => {
             if (gameActive) {
                 clearInterval(timerInterval);
                 message.style.display = "block";
@@ -72,10 +135,7 @@
                     resetGame();
                 }, 2000);
             }
-        }
-
-        cat.addEventListener("click", catClicked);
-        cat.addEventListener("touchstart", catClicked);
+        });
 
         function resetGame() {
             const maxWidth = gameContainer.clientWidth - 100;
@@ -124,5 +184,8 @@
 
         startTimer();
     </script>
+    <footer>
+        <p>&copy; 2023 Nicht Simons Website</p>
+    </footer>
 </body>
 </html>
