@@ -5,21 +5,71 @@
     <title>Memory-Spiel</title>
     <style>
         /* CSS-Stile für das Spielbrett und die Karten */
+
         body {
             background-color: #ADD8E6;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            height: 100%;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #0056b3;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        section {
+            padding: 20px;
+        }
+        footer {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0vh;
+    width: 100%;
+}
 
         .memory-game {
             display: grid;
             grid-template-columns: repeat(4, 100px);
             gap: 5px;
             width: 420px;
+            margin: 0 auto; /* In der Mitte ausrichten */
+   margin-top: 20px; /* Abstand zum Navigationsmenü */
         }
 
         .memory-card {
@@ -45,7 +95,15 @@
     </style>
 </head>
 <body>
-    <h1>Memory-Spiel</h1>
+  <header>
+      <h1>MEMORY</h1>
+  </header>
+  <nav>
+      <ul>
+        <li><a href="https://tobo046.github.io">Hauptseite</a></li>
+
+      </ul>
+  </nav>
     <div id="memory-game" class="memory-game"></div>
 
     <script>
@@ -126,6 +184,9 @@
 
         createBoard();
     </script>
+
+    <footer>
+        <p>&copy; 2023 Nicht Simons Website</p>
+    </footer>
 </body>
 </html>
-
