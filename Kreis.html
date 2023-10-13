@@ -3,54 +3,54 @@
 <head>
     <title>Fange den Kreis!</title>
     <style>
-    body {
-        background-color: #ADD8E6;
-        font-family: Arial, sans-serif;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
+        body {
+            background-color: #ADD8E6;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
 
-    main {
-        flex: 1;
-        overflow-y: auto;
-    }
+        main {
+            flex: 1;
+            overflow-y: auto;
+        }
 
-    header {
-        background-color: #007BFF;
-        color: #fff;
-        text-align: center;
-        padding: 20px;
-    }
+        header {
+      background-color: #007BFF;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+  }
 
-    nav {
-        background-color: #0056b3;
-        text-align: center;
-        padding: 10px;
-    }
+  nav {
+      background-color: #0056b3;
+      text-align: center;
+      padding: 10px;
+  }
 
-    nav ul {
-        list-style-type: none;
-        padding: 0;
-    }
+  nav ul {
+      list-style-type: none;
+      padding: 0;
+  }
 
-    nav ul li {
-        display: inline;
-        margin-right: 20px;
-    }
+  nav ul li {
+      display: inline;
+      margin-right: 20px;
+  }
 
-    nav a {
-        text-decoration: none;
-        color: #fff;
-    }
+  nav a {
+      text-decoration: none;
+      color: #fff;
+  }
 
-    section {
-        padding: 20px;
-    }
-    footer {
+  section {
+      padding: 20px;
+  }
+  footer {
 background-color: #007BFF;
 color: #fff;
 text-align: center;
@@ -60,11 +60,12 @@ bottom: 0vh;
 width: 100%;
 }
 
-        #game-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-        }
+#game-container {
+    position: absolute;
+    width: 100%;
+    top: 50px; /* Höhe der Navigationsleiste */
+    bottom: 30px; /* Höhe des Footers */
+}
 
         #cat {
             position: absolute;
@@ -94,15 +95,14 @@ width: 100%;
     </style>
 </head>
 <body>
-
-  <header>
-      <h1>Fange den Kreis!</h1>
-  </header>
-  <nav>
-      <ul>
-          <li><a href="https://tobo046.github.io">Hauptseite</a></li>
-      </ul>
-  </nav>
+    <header>
+        <h1>Fange den Kreis!</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="https://tobo046.github.io">Hauptseite</a></li>
+        </ul>
+    </nav>
 
 
     <div id="game-container">
@@ -121,7 +121,7 @@ width: 100%;
         let timeElapsed = 0;
         let timerInterval;
 
-        cat.addEventListener("mouseover", () => {
+        function catEntered() {
             if (gameActive) {
                 clearInterval(timerInterval);
                 message.style.display = "block";
@@ -135,11 +135,14 @@ width: 100%;
                     resetGame();
                 }, 2000);
             }
-        });
+        }
+
+        cat.addEventListener("mouseenter", catEntered);
+        cat.addEventListener("touchstart", catEntered);
 
         function resetGame() {
             const maxWidth = gameContainer.clientWidth - 100;
-            const maxHeight = gameContainer.clientHeight - 100;
+            const maxHeight = gameContainer.clientHeight - 200;
 
             const randomX = Math.random() * maxWidth;
             const randomY = Math.random() * maxHeight;
@@ -158,7 +161,7 @@ width: 100%;
         function moveCatRandomly() {
             if (gameActive) {
                 const maxWidth = gameContainer.clientWidth - 100;
-                const maxHeight = gameContainer.clientHeight - 100;
+                const maxHeight = gameContainer.clientHeight - 200;
 
                 const randomX = Math.random() * maxWidth;
                 const randomY = Math.random() * maxHeight;
@@ -184,6 +187,7 @@ width: 100%;
 
         startTimer();
     </script>
+    </body>
     <footer>
         <p>&copy; 2023 Nicht Simons Website</p>
     </footer>
